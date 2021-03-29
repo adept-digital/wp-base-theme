@@ -1,0 +1,7 @@
+/.idea
+/composer.lock
+/auth.json
+/vendor
+/tests/wp
+/tests/wp-config.php
+.phpunit.result.cache

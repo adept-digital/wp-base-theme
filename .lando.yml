@@ -1,0 +1,22 @@
+name: wp-base-theme
+
+services:
+  app:
+    type: php:7.4
+    via: cli
+    run:
+      - composer install
+      - setup-tests.sh
+  database:
+    type: mysql:5.7
+
+tooling:
+  php:
+    service: app
+  composer:
+    service: app
+  wp:
+    service: app
+  test:
+    service: app
+    cmd: phpunit
