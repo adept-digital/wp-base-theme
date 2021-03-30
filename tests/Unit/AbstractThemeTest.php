@@ -4,6 +4,7 @@ namespace AdeptDigital\WpBaseTheme\Tests\Unit;
 
 use AdeptDigital\WpBaseTheme\AbstractTheme;
 use AdeptDigital\WpBaseTheme\Exception\InvalidThemeException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class AbstractThemeTest extends TestCase
@@ -26,6 +27,14 @@ class AbstractThemeTest extends TestCase
         return $this->getMockBuilder(AbstractTheme::class)
             ->setConstructorArgs(['abc', $file])
             ->getMockForAbstractClass();
+    }
+
+    private function createMockCallable(): MockObject
+    {
+        return $this
+            ->getMockBuilder(\stdclass::class)
+            ->addMethods(['__invoke'])
+            ->getMock();
     }
 
     public function testConstruct()
@@ -52,6 +61,26 @@ class AbstractThemeTest extends TestCase
         $this->expectNotToPerformAssertions();
         switch_theme('test-theme-child');
         $this->createMockTheme();
+    }
+
+    public function testInvoke()
+    {
+        $theme = $this->createMockTheme();
+        $theme();
+        $this->assertIsInt(has_action('after_setup_theme', [$theme, 'doBoot']));
+        $this->assertIsInt(has_action('init', [$theme, 'doInit']));
+    }
+
+    public function testDoBoot()
+    {
+        $theme = $this->createMockTheme();
+        $callable = $this->createMockCallable();
+        $callable->expects(self::once())
+            ->method('__invoke')
+            ->with(self::identicalTo($theme));
+
+        add_action('abc_boot', $callable);
+        $theme->doBoot();
     }
 
     public function testGetFile()

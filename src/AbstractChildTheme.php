@@ -39,9 +39,9 @@ abstract class AbstractChildTheme extends AbstractTheme
     /**
      * @inheritDoc
      */
-    public function boot(): void
+    public function __invoke(): void
     {
-        parent::boot();
+        parent::__invoke();
         add_action("{$this->parentNamespace}_boot", [$this, 'setParent']);
     }
 

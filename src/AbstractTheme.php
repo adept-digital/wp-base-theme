@@ -52,6 +52,28 @@ abstract class AbstractTheme extends AbstractComponent implements ThemeInterface
     /**
      * @inheritDoc
      */
+    public function __invoke(): void
+    {
+        parent::__invoke();
+        add_action('after_setup_theme', [$this, 'doBoot']);
+    }
+
+    /**
+     * Triggers namespaced boot action.
+     *
+     * Passes `$this` as the first parameter to allow hooking into the
+     * theme.
+     *
+     * @return void
+     */
+    public function doBoot(): void
+    {
+        do_action($this->getNamespace('boot'), $this);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getFile(): string
     {
         return dirname(parent::getFile()) . '/style.css';
