@@ -2,6 +2,7 @@
 
 namespace AdeptDigital\WpBaseTheme;
 
+use AdeptDigital\WpBaseComponent\Exception\NotFoundException;
 use AdeptDigital\WpBaseTheme\Exception\ThemeException;
 
 /**
@@ -64,9 +65,33 @@ abstract class AbstractChildTheme extends AbstractTheme
     /**
      * @inheritDoc
      */
+    public function getPath(string $path): string
+    {
+        try {
+            return parent::getPath($path);
+        } catch (NotFoundException $exception) {
+            return $this->getParent()->getPath($path);
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getBaseUri(): string
     {
         return get_stylesheet_directory_uri();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUri(string $path): string
+    {
+        try {
+            return parent::getUri($path);
+        } catch (NotFoundException $exception) {
+            return $this->getParent()->getUri($path);
+        }
     }
 
     /**
