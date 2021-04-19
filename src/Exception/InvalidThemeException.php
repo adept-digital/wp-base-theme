@@ -16,7 +16,7 @@ class InvalidThemeException extends RuntimeException implements ThemeExceptionIn
      *
      * @var string
      */
-    private string $themeFile;
+    private $themeFile;
 
     /**
      * Invalid Theme Exception constructor.

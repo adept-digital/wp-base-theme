@@ -15,14 +15,14 @@ abstract class AbstractChildTheme extends AbstractTheme
      *
      * @var string
      */
-    private string $parentNamespace;
+    private $parentNamespace;
 
     /**
      * Parent theme
      *
      * @var ThemeInterface
      */
-    private ThemeInterface $parent;
+    private $parent;
 
     /**
      * Base child theme constructor.

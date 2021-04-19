@@ -27,7 +27,7 @@ abstract class AbstractTheme extends AbstractComponent implements ThemeInterface
      *
      * @var WP_Theme|null
      */
-    private ?WP_Theme $theme;
+    private $theme;
 
     /**
      * Base theme constructor.
